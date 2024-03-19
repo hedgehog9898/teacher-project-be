@@ -2,7 +2,7 @@ import { IsString, Length, Matches, MinLength } from 'class-validator';
 import { PASSWORD_REGEX } from '../../common/consts/regex.const';
 import { ApiProperty } from '@nestjs/swagger';
 
-export abstract class PasswordsDto {
+export abstract class SinglePasswordDto {
   @ApiProperty({
     description: 'New password',
     minLength: 8,
@@ -22,7 +22,9 @@ export abstract class PasswordsDto {
       'Password requires a lowercase letter, an uppercase letter, and a number or symbol',
   })
   public password!: string;
+}
 
+export abstract class PasswordsDto extends SinglePasswordDto {
   @ApiProperty({
     description: 'Password confirmation',
     minLength: 8,

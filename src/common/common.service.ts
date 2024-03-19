@@ -6,9 +6,8 @@ import {
   Logger,
   LoggerService, NotFoundException,
 } from '@nestjs/common';
-import { Dictionary, EntityRepository } from '@mikro-orm/core';
+import { Dictionary, EntityManager } from '@mikro-orm/core';
 import { validate } from 'class-validator';
-import { isNull, isUndefined } from './utils/validation.util';
 import slugify from 'slugify';
 import { IMessage } from './interfaces/message.interface';
 import { v4 } from 'uuid';
@@ -17,7 +16,7 @@ import { v4 } from 'uuid';
 export class CommonService {
   private readonly loggerService: LoggerService;
 
-  constructor() {
+  constructor(private readonly em: EntityManager) {
     this.loggerService = new Logger(CommonService.name);
   }
 
@@ -30,7 +29,7 @@ export class CommonService {
     entity: T | null | undefined,
     name: string,
   ): void {
-    if (isNull(entity) || isUndefined(entity)) {
+    if (!entity) {
       throw new NotFoundException(`${name} not found`);
     }
   }
@@ -40,20 +39,14 @@ export class CommonService {
    *
    * Validates, saves and flushes entities into the DB
    */
-  public async saveEntity<T extends Dictionary>(
-    repo: EntityRepository<T>,
-    entity: T,
-    isNew = false,
-  ): Promise<void> {
+  public async saveEntity<T extends Dictionary>(entity: T, isNew = false): Promise<void> {
     await this.validateEntity(entity);
 
     if (isNew) {
-      // @ts-ignore
-      repo.persist(entity);
+      this.em.persist(entity);
     }
 
-    // @ts-ignore
-    await this.throwDuplicateError(repo.flush());
+    await this.throwDuplicateError(this.em.flush());
   }
 
   /**
@@ -61,12 +54,8 @@ export class CommonService {
    *
    * Removes an entities from the DB.
    */
-  public async removeEntity<T extends Dictionary>(
-    repo: EntityRepository<T>,
-    entity: T,
-  ): Promise<void> {
-    // @ts-ignore
-    await this.throwInternalError(repo.removeAndFlush(entity));
+  public async removeEntity<T extends Dictionary>(entity: T): Promise<void> {
+    await this.throwInternalError(this.em.removeAndFlush(entity));
   }
 
   /**
@@ -75,7 +64,7 @@ export class CommonService {
    * Checks is an error is of the code 23505, PostgreSQL's duplicate value error,
    * and throws a conflict exception
    */
-  public async throwDuplicateError<T>(promise: Promise<T>, message?: string) {
+  public async throwDuplicateError<T>(promise: Promise<T>, message?: string): Promise<T> {
     try {
       return await promise;
     } catch (error) {
@@ -110,14 +99,10 @@ export class CommonService {
    */
   public async validateEntity(entity: Dictionary): Promise<void> {
     const errors = await validate(entity);
-    const messages: string[] = [];
-
-    for (const error of errors) {
-      messages.push(...Object.values(error.constraints));
-    }
 
     if (errors.length > 0) {
-      throw new BadRequestException(messages.join(',\n'));
+      const messages = errors.map((error) => Object.values(error.constraints)).join(',\n');
+      throw new BadRequestException(messages);
     }
   }
 

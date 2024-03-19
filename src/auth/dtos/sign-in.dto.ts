@@ -1,8 +1,8 @@
 import { IsString, Length } from 'class-validator';
-import { PasswordsDto } from './passwords.dto';
+import { SinglePasswordDto } from './passwords.dto';
 import { ApiProperty } from '@nestjs/swagger';
 
-export abstract class SignInDto extends PasswordsDto {
+export abstract class SignInDto extends SinglePasswordDto {
   @ApiProperty({
     description: 'Username or email',
     examples: ['john.doe', 'john.doe@gmail.com'],

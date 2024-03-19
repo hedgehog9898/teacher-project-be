@@ -149,7 +149,6 @@ export class AuthService {
   public async signUp(dto: SignUpDto, domain?: string): Promise<IMessage> {
     const { name, email, password, repeatedPassword } = dto;
     this.comparePasswords(password, repeatedPassword);
-    console.log('heere', dto);
     const user = await this.usersService.create(email, name, password);
     const confirmationToken = await this.jwtService.generateToken(
       user,
@@ -157,6 +156,7 @@ export class AuthService {
       domain,
     );
     this.mailerService.sendConfirmationEmail(user, confirmationToken);
+
     return this.commonService.generateMessage('Registration successful');
   }
 
@@ -230,8 +230,7 @@ export class AuthService {
     domain?: string
   ): Promise<IAuthResult> {
     // TODO: Debug here
-    const { password, repeatedPassword, changedPassword } = dto;
-    this.comparePasswords(password, repeatedPassword);
+    const { password, changedPassword } = dto;
     const user = await this.usersService.updatePassword(
       userId,
       changedPassword,

@@ -26,19 +26,13 @@ export class UsersService {
     const formattedEmail = email.toLowerCase();
     await this.checkEmailUniqueness(formattedEmail);
     const formattedName = this.commonService.formatName(name);
-    console.log('gre', {
-      email: formattedEmail,
-      name: formattedName,
-      username: await this.generateUsername(formattedName),
-      password: await argon2.hash(password, { hashLength: 59 })
-    });
     const user = this.usersRepository.create({
       email: formattedEmail,
       name: formattedName,
       username: await this.generateUsername(formattedName),
       password: await argon2.hash(password, { hashLength: 59 }),
     });
-    await this.commonService.saveEntity(this.usersRepository, user, true);
+    await this.commonService.saveEntity(user, true);
     return user;
   }
 
@@ -148,7 +142,7 @@ export class UsersService {
 
     user.confirmed = true;
     user.credentials.updateVersion();
-    await this.commonService.saveEntity(this.usersRepository, user);
+    await this.commonService.saveEntity(user);
     return user;
   }
 
@@ -174,7 +168,7 @@ export class UsersService {
       user.username = formattedUsername;
     }
 
-    await this.commonService.saveEntity(this.usersRepository, user);
+    await this.commonService.saveEntity(user);
     return user;
   }
 
@@ -192,7 +186,7 @@ export class UsersService {
     const formattedEmail = email.toLowerCase();
     await this.checkEmailUniqueness(formattedEmail);
     user.email = formattedEmail;
-    await this.commonService.saveEntity(this.usersRepository, user);
+    await this.commonService.saveEntity(user);
     return user;
   }
 
@@ -212,7 +206,7 @@ export class UsersService {
 
     user.credentials.updatePassword(user.password);
     user.password = await argon2.hash(newPassword, { hashLength: 59 });
-    await this.commonService.saveEntity(this.usersRepository, user);
+    await this.commonService.saveEntity(user);
     return user;
   }
 
@@ -224,7 +218,7 @@ export class UsersService {
     const user = await this.findOneByCredentials(userId, version);
     user.credentials.updatePassword(user.password);
     user.password = await argon2.hash(password, { hashLength: 59 });
-    await this.commonService.saveEntity(this.usersRepository, user);
+    await this.commonService.saveEntity(user);
     return user;
   }
 
@@ -243,7 +237,7 @@ export class UsersService {
       throw new BadRequestException('Wrong password');
     }
 
-    await this.commonService.removeEntity(this.usersRepository, user);
+    await this.commonService.removeEntity(user);
     return user;
   }
 
