@@ -6,7 +6,6 @@ import helmet from 'helmet';
 import { ConfigService } from '@nestjs/config';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { MikroORM } from '@mikro-orm/core';
-import * as process from 'process';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -28,6 +27,10 @@ async function bootstrap() {
     await app.get(MikroORM).getSchemaGenerator().updateSchema();
   }
 
+  app.enableCors({
+    origin: 'http://localhost:3000', // adjust the URL if needed
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE'
+  });
   app.use(cookieParser(configService.get<string>('COOKIE_SECRET')));
   app.use(helmet());
   app.enableCors({

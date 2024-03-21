@@ -24,6 +24,7 @@ export class AuthGuard implements CanActivate {
       context.getHandler(),
       context.getClass(),
     ]);
+
     const activate = await this.setHttpHeader(
       context.switchToHttp().getRequest(),
       isPublic,

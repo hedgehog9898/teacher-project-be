@@ -30,6 +30,12 @@ export class ResponseUserMapper implements IResponseUser {
   public username: string;
 
   @ApiProperty({
+    description: 'Is user confirmed by email or not',
+    type: Boolean,
+  })
+  public confirmed: boolean;
+
+  @ApiProperty({
     description: 'User creation date',
     example: '2021-01-01T00:00:00.000Z',
     type: String,
@@ -52,6 +58,7 @@ export class ResponseUserMapper implements IResponseUser {
       id: user.id,
       name: user.name,
       username: user.username,
+      confirmed: user.confirmed,
       createdAt: user.createdAt.toISOString(),
       updatedAt: user.updatedAt.toISOString(),
     });

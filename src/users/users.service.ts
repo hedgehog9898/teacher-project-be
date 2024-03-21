@@ -75,6 +75,7 @@ export class UsersService {
     const user = await this.usersRepository.findOne({
       email: email.toLowerCase(),
     });
+
     this.throwUnauthorizedException(user);
     return user;
   }
