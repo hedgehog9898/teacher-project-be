@@ -27,6 +27,7 @@ import {
   ApiOkResponse,
   ApiUnauthorizedResponse
 } from '@nestjs/swagger';
+import { Response } from 'express';
 
 @Controller('api/users')
 export class UsersController {
@@ -113,7 +114,7 @@ export class UsersController {
     @Res() res: Response,
   ): Promise<void> {
     await this.usersService.delete(id, dto);
-    // @ts-ignore
+
     res
       .clearCookie(this.cookieName, { path: this.cookiePath })
       .status(HttpStatus.NO_CONTENT)

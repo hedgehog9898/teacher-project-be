@@ -58,7 +58,6 @@ export class AuthController {
   }
 
   private refreshTokenFromReq(req: Request): string {
-    // @ts-ignore
     const token: string | undefined = req.signedCookies[this.cookieName];
 
     if (isUndefined(token)) {
@@ -141,7 +140,7 @@ export class AuthController {
     const result = await this.authService.refreshTokenAccess(
       token,
       // @ts-ignore
-      req.headers.origin,
+      req.headers.get('Origin'),
     );
     this.saveRefreshCookie(res, result.refreshToken)
       .status(HttpStatus.OK)
