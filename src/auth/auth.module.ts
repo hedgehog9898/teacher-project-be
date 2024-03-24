@@ -21,12 +21,14 @@ import { RedisOptions } from 'ioredis';
         throttlers: [
           {
             ttl: config.get('THROTTLE_TTL'),
-            limit: config.get('THROTTLE_LIMIT'),
-          },
+            limit: config.get('THROTTLE_LIMIT')
+          }
         ],
-        storage: new ThrottlerStorageRedisService(config.get<RedisOptions>('redis')),
-      }),
-    }),
+        storage: new ThrottlerStorageRedisService(
+          config.get<RedisOptions>('redis'),
+        )
+      })
+    })
   ],
   providers: [AuthService],
   controllers: [AuthController]

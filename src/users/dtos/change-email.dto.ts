@@ -8,7 +8,7 @@ export abstract class ChangeEmailDto extends PasswordDto {
     example: 'someone@gmail.com',
     minLength: 5,
     maxLength: 255,
-    type: String,
+    type: String
   })
   @IsString()
   @IsEmail()

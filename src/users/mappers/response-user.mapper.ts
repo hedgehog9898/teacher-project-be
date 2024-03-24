@@ -7,7 +7,7 @@ export class ResponseUserMapper implements IResponseUser {
     description: 'User id',
     example: 123,
     minimum: 1,
-    type: Number,
+    type: Number
   })
   public id: number;
 
@@ -16,7 +16,7 @@ export class ResponseUserMapper implements IResponseUser {
     example: 'John Doe',
     minLength: 3,
     maxLength: 100,
-    type: String,
+    type: String
   })
   public name: string;
 
@@ -25,27 +25,27 @@ export class ResponseUserMapper implements IResponseUser {
     example: 'john.doe1',
     minLength: 3,
     maxLength: 106,
-    type: String,
+    type: String
   })
   public username: string;
 
   @ApiProperty({
     description: 'Is user confirmed by email or not',
-    type: Boolean,
+    type: Boolean
   })
   public confirmed: boolean;
 
   @ApiProperty({
     description: 'User creation date',
     example: '2021-01-01T00:00:00.000Z',
-    type: String,
+    type: String
   })
   public createdAt: string;
 
   @ApiProperty({
     description: 'User last update date',
     example: '2021-01-01T00:00:00.000Z',
-    type: String,
+    type: String
   })
   public updatedAt: string;
 
@@ -60,7 +60,7 @@ export class ResponseUserMapper implements IResponseUser {
       username: user.username,
       confirmed: user.confirmed,
       createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString()
     });
   }
 }

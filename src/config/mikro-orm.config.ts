@@ -1,6 +1,6 @@
 import {
   MikroOrmModuleOptions,
-  MikroOrmOptionsFactory,
+  MikroOrmOptionsFactory
 } from '@mikro-orm/nestjs';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

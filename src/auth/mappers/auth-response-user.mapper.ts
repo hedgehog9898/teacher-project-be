@@ -7,7 +7,7 @@ export class AuthResponseUserMapper implements IAuthResponseUser {
     description: 'User id',
     example: 123,
     minimum: 1,
-    type: Number,
+    type: Number
   })
   public id: number;
 
@@ -16,7 +16,7 @@ export class AuthResponseUserMapper implements IAuthResponseUser {
     example: 'John Doe',
     minLength: 3,
     maxLength: 100,
-    type: String,
+    type: String
   })
   public name: string;
 
@@ -25,7 +25,7 @@ export class AuthResponseUserMapper implements IAuthResponseUser {
     example: 'john.doe1',
     minLength: 3,
     maxLength: 106,
-    type: String,
+    type: String
   })
   public username: string;
 
@@ -33,21 +33,21 @@ export class AuthResponseUserMapper implements IAuthResponseUser {
     description: 'User email',
     example: 'example@gmail.com',
     minLength: 5,
-    maxLength: 255,
+    maxLength: 255
   })
   public email: string;
 
   @ApiProperty({
     description: 'User creation date',
     example: '2021-01-01T00:00:00.000Z',
-    type: String,
+    type: String
   })
   public createdAt: string;
 
   @ApiProperty({
     description: 'User last update date',
     example: '2021-01-01T00:00:00.000Z',
-    type: String,
+    type: String
   })
   public updatedAt: string;
 
@@ -62,7 +62,7 @@ export class AuthResponseUserMapper implements IAuthResponseUser {
       username: user.username,
       email: user.email,
       createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
+      updatedAt: user.updatedAt.toISOString()
     });
   }
 }

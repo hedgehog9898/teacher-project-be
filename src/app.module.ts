@@ -40,9 +40,6 @@ import { AuthGuard } from './auth/guards/auth.guard';
     MailerModule
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    { provide: APP_GUARD, useClass: AuthGuard }
-  ],
+  providers: [AppService, { provide: APP_GUARD, useClass: AuthGuard }]
 })
 export class AppModule {}

@@ -1,4 +1,9 @@
-import { BadRequestException, ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  UnauthorizedException
+} from '@nestjs/common';
 import { InjectRepository } from '@mikro-orm/nestjs';
 import { UserEntity } from './entities/user.entity';
 import { CommonService } from '../common/common.service';
@@ -16,7 +21,7 @@ export class UsersService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly usersRepository: EntityRepository<UserEntity>,
-    private readonly commonService: CommonService
+    private readonly commonService: CommonService,
   ) {}
   public async create(
     email: string,
@@ -30,7 +35,7 @@ export class UsersService {
       email: formattedEmail,
       name: formattedName,
       username: await this.generateUsername(formattedName),
-      password: await argon2.hash(password, { hashLength: 59 }),
+      password: await argon2.hash(password, { hashLength: 59 })
     });
     await this.commonService.saveEntity(user, true);
     return user;
@@ -54,8 +59,8 @@ export class UsersService {
     const pointSlug = this.commonService.generatePointSlug(name);
     const count = await this.usersRepository.count({
       username: {
-        $like: `${pointSlug}%`,
-      },
+        $like: `${pointSlug}%`
+      }
     });
 
     if (count > 0) {
@@ -73,7 +78,7 @@ export class UsersService {
 
   public async findOneByEmail(email: string): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
-      email: email.toLowerCase(),
+      email: email.toLowerCase()
     });
 
     this.throwUnauthorizedException(user);
@@ -119,7 +124,7 @@ export class UsersService {
     forAuth = false,
   ): Promise<UserEntity> {
     const user = await this.usersRepository.findOne({
-      username: username.toLowerCase(),
+      username: username.toLowerCase()
     });
 
     if (forAuth) {
@@ -245,7 +250,7 @@ export class UsersService {
   // necessary for password reset
   public async uncheckedUserByEmail(email: string): Promise<UserEntity> {
     return this.usersRepository.findOne({
-      email: email.toLowerCase(),
+      email: email.toLowerCase()
     });
   }
 

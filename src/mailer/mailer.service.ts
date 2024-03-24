@@ -26,7 +26,7 @@ export class MailerService {
     this.loggerService = new Logger(MailerService.name);
     this.templates = {
       confirmation: MailerService.parseTemplate('confirmation.hbs'),
-      resetPassword: MailerService.parseTemplate('reset-password.hbs'),
+      resetPassword: MailerService.parseTemplate('reset-password.hbs')
     };
   }
 
@@ -35,7 +35,7 @@ export class MailerService {
     const subject = 'Confirm your email';
     const html = this.templates.confirmation({
       name,
-      link: `https://${this.domain}/auth/confirm/${token}`,
+      link: `https://${this.domain}/auth/confirm/${token}`
     });
     this.sendEmail(email, subject, html, 'A new confirmation email was sent.');
   }
@@ -45,7 +45,7 @@ export class MailerService {
     const subject = 'Reset your password';
     const html = this.templates.resetPassword({
       name,
-      link: `https://${this.domain}/auth/reset-password/${token}`,
+      link: `https://${this.domain}/auth/reset-password/${token}`
     });
     this.sendEmail(
       email,
@@ -66,7 +66,7 @@ export class MailerService {
         from: this.email,
         to,
         subject,
-        html,
+        html
       })
       .then(() => this.loggerService.log(log ?? 'A new email was sent.'))
       .catch((error) => this.loggerService.error(error));

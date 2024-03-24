@@ -8,7 +8,7 @@ export const redisUrlParser = (url: string): RedisOptions => {
     return {
       password: arr[0],
       host: secondArr[0],
-      port: parseInt(secondArr[1], 10),
+      port: parseInt(secondArr[1], 10)
     };
   }
 
@@ -16,6 +16,6 @@ export const redisUrlParser = (url: string): RedisOptions => {
   const arr = connectionString.split(':');
   return {
     host: arr[0],
-    port: parseInt(arr[1], 10),
+    port: parseInt(arr[1], 10)
   };
 };

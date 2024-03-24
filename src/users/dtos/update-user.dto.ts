@@ -7,12 +7,12 @@ export abstract class UpdateUserDto {
   @ApiProperty({
     description: 'The new username',
     example: 'new-username',
-    type: String,
+    type: String
   })
   @IsString()
   @Length(3, 106)
   @Matches(SLUG_REGEX, {
-    message: 'Username must be a valid slugs',
+    message: 'Username must be a valid slugs'
   })
   @ValidateIf(
     (o: UpdateUserDto) =>
@@ -23,12 +23,12 @@ export abstract class UpdateUserDto {
   @ApiProperty({
     description: 'The new name',
     example: 'John Doe',
-    type: String,
+    type: String
   })
   @IsString()
   @Length(3, 100)
   @Matches(NAME_REGEX, {
-    message: 'Name must not have special characters',
+    message: 'Name must not have special characters'
   })
   @ValidateIf(
     (o: UpdateUserDto) =>

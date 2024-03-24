@@ -6,7 +6,7 @@ export abstract class ChangePasswordDto extends SinglePasswordDto {
   @ApiProperty({
     description: 'The current password',
     minLength: 1,
-    type: String,
+    type: String
   })
   @IsString()
   @MinLength(1)

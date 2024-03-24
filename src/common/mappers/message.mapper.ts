@@ -6,14 +6,14 @@ export class MessageMapper implements IMessage {
   @ApiProperty({
     description: 'Message UUID',
     example: 'c0a80121-7ac0-11d1-898c-00c04fd8d5cd',
-    type: String,
+    type: String
   })
   public id: string;
 
   @ApiProperty({
     description: 'Message',
     example: 'Hello World',
-    type: String,
+    type: String
   })
   public message: string;
 

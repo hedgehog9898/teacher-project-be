@@ -6,7 +6,7 @@ import { ApiProperty } from '@nestjs/swagger';
 export class AuthResponseMapper implements IAuthResponse {
   @ApiProperty({
     description: 'User',
-    type: AuthResponseUserMapper,
+    type: AuthResponseUserMapper
   })
   public user: AuthResponseUserMapper;
 
@@ -14,7 +14,7 @@ export class AuthResponseMapper implements IAuthResponse {
     description: 'Access token',
     example:
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
-    type: String,
+    type: String
   })
   public accessToken: string;
 
@@ -25,7 +25,7 @@ export class AuthResponseMapper implements IAuthResponse {
   public static map(result: IAuthResult): AuthResponseMapper {
     return new AuthResponseMapper({
       user: AuthResponseUserMapper.map(result.user),
-      accessToken: result.accessToken,
+      accessToken: result.accessToken
     });
   }
 }

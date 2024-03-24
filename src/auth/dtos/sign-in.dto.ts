@@ -8,7 +8,7 @@ export abstract class SignInDto extends SinglePasswordDto {
     examples: ['john.doe', 'john.doe@gmail.com'],
     minLength: 3,
     maxLength: 255,
-    type: String,
+    type: String
   })
   @IsString()
   @Length(3, 255)

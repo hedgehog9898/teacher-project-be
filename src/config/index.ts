@@ -25,20 +25,20 @@ export function config(): IConfig {
       access: {
         privateKey,
         publicKey,
-        time: parseInt(process.env.JWT_ACCESS_TIME, 10),
+        time: parseInt(process.env.JWT_ACCESS_TIME, 10)
       },
       confirmation: {
         secret: process.env.JWT_CONFIRMATION_SECRET,
-        time: parseInt(process.env.JWT_CONFIRMATION_TIME, 10),
+        time: parseInt(process.env.JWT_CONFIRMATION_TIME, 10)
       },
       resetPassword: {
         secret: process.env.JWT_RESET_PASSWORD_SECRET,
-        time: parseInt(process.env.JWT_RESET_PASSWORD_TIME, 10),
+        time: parseInt(process.env.JWT_RESET_PASSWORD_TIME, 10)
       },
       refresh: {
         secret: process.env.JWT_REFRESH_SECRET,
-        time: parseInt(process.env.JWT_REFRESH_TIME, 10),
-      },
+        time: parseInt(process.env.JWT_REFRESH_TIME, 10)
+      }
     },
     emailService: {
       host: process.env.EMAIL_HOST,
@@ -46,8 +46,8 @@ export function config(): IConfig {
       secure: process.env.EMAIL_SECURE === 'true',
       auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASSWORD,
-      },
+        pass: process.env.EMAIL_PASSWORD
+      }
     },
     db: defineConfig({
       clientUrl: process.env.DATABASE_URL,
@@ -63,7 +63,7 @@ export function config(): IConfig {
     throttler: {
       // @ts-ignore
       ttl: parseInt(process.env.THROTTLE_TTL, 10),
-      limit: parseInt(process.env.THROTTLE_LIMIT, 10),
+      limit: parseInt(process.env.THROTTLE_LIMIT, 10)
     },
     testing
   };

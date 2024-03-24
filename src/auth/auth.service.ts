@@ -1,4 +1,9 @@
-import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  UnauthorizedException
+} from '@nestjs/common';
 import { CommonService } from '../common/common.service';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '../jwt/jwt.service';
@@ -20,7 +25,7 @@ import { ResetPasswordDto } from './dtos/reset-password.dto';
 import { IEmailToken } from '../jwt/interfaces/email-token.interface';
 import { ChangePasswordDto } from './dtos/change-password.dto';
 import { CACHE_MANAGER } from '@nestjs/common/cache';
-import { Cache } from 'cache-manager'
+import { Cache } from 'cache-manager';
 import * as argon2 from 'argon2';
 import { ConfirmEmailDto } from './dtos/confirm-email.dto';
 
@@ -52,7 +57,7 @@ export class AuthService {
         TokenTypeEnum.REFRESH,
         domain,
         tokenId,
-      ),
+      )
     ]);
   }
 
@@ -112,7 +117,10 @@ export class AuthService {
   ): Promise<void> {
     const { lastPassword, passwordUpdatedAt } = credentials;
 
-    if (lastPassword.length === 0 || !(await argon2.verify(lastPassword, password))) {
+    if (
+      lastPassword.length === 0 ||
+      !(await argon2.verify(lastPassword, password))
+    ) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -227,7 +235,7 @@ export class AuthService {
   public async updatePassword(
     userId: number,
     dto: ChangePasswordDto,
-    domain?: string
+    domain?: string,
   ): Promise<IAuthResult> {
     // TODO: Debug here
     const { password, changedPassword } = dto;
@@ -236,7 +244,10 @@ export class AuthService {
       changedPassword,
       password,
     );
-    const [accessToken, refreshToken] = await this.generateAuthTokens(user, domain);
+    const [accessToken, refreshToken] = await this.generateAuthTokens(
+      user,
+      domain,
+    );
     return { user, accessToken, refreshToken };
   }
 
@@ -252,7 +263,11 @@ export class AuthService {
   }
 
   // checks if a blacklist token given a redis key exist on cache
-  private async blacklistToken(userId: number, tokenId: string, exp: number): Promise<void> {
+  private async blacklistToken(
+    userId: number,
+    tokenId: string,
+    exp: number,
+  ): Promise<void> {
     const now = dayjs().unix();
     const ttl = (exp - now) * 1000;
 

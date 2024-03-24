@@ -7,7 +7,7 @@ export abstract class EmailDto {
     example: 'someone@gmail.com',
     minLength: 5,
     maxLength: 255,
-    type: String,
+    type: String
   })
   @IsString()
   @IsEmail()

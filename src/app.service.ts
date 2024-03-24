@@ -7,7 +7,10 @@ export class AppService {
   constructor(private readonly config: ConfigService) {}
 
   async getHello(): Promise<void> {
-    const vertexAI = new VertexAI({project: 'kinetic-star-417112', location: 'us-central1'});
+    const vertexAI = new VertexAI({
+      project: 'kinetic-star-417112',
+      location: 'us-central1'
+    });
     const generativeVisionModel = vertexAI.preview.getGenerativeModel({
       model: 'gemini-1.0-pro-001',
       generation_config: {
@@ -17,7 +20,7 @@ export class AppService {
       }
     });
     const request = {
-      contents: [{role: 'user', parts: [{ text: '2 + 2 = ?' }]}],
+      contents: [{ role: 'user', parts: [{ text: '2 + 2 = ?' }] }]
     };
     console.log('Prompt Text:');
     console.log(request.contents[0]);

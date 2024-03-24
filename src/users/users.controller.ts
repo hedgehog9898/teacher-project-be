@@ -1,4 +1,13 @@
-import { Body, Controller, Delete, Get, HttpStatus, Param, Patch, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpStatus,
+  Param,
+  Patch,
+  Res
+} from '@nestjs/common';
 import { UsersService } from './users.service';
 import { ConfigService } from '@nestjs/config';
 import { ResponseUserMapper } from './mappers/response-user.mapper';
@@ -16,7 +25,7 @@ import {
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiUnauthorizedResponse,
+  ApiUnauthorizedResponse
 } from '@nestjs/swagger';
 
 @Controller('api/users')
@@ -35,29 +44,31 @@ export class UsersController {
   @Get('/:idOrUsername')
   @ApiOkResponse({
     type: ResponseUserMapper,
-    description: 'The user is found and returned.',
+    description: 'The user is found and returned.'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body',
+    description: 'Something is invalid on the request body'
   })
   @ApiNotFoundResponse({
-    description: 'The user is not found.',
+    description: 'The user is not found.'
   })
   public async getUser(@Param() params: GetUserParams): Promise<IResponseUser> {
-    const user = await this.usersService.findOneByIdOrUsername(params.idOrUsername);
+    const user = await this.usersService.findOneByIdOrUsername(
+      params.idOrUsername,
+    );
     return ResponseUserMapper.map(user);
   }
 
   @Patch('/email')
   @ApiOkResponse({
     type: AuthResponseUserMapper,
-    description: 'The email is updated, and the user is returned.',
+    description: 'The email is updated, and the user is returned.'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body, or wrong password.',
+    description: 'Something is invalid on the request body, or wrong password.'
   })
   @ApiUnauthorizedResponse({
-    description: 'The user is not logged in.',
+    description: 'The user is not logged in.'
   })
   public async updateEmail(
     @CurrentUser() id: number,
@@ -70,13 +81,13 @@ export class UsersController {
   @Patch()
   @ApiOkResponse({
     type: ResponseUserMapper,
-    description: 'The username is updated.',
+    description: 'The username is updated.'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body.',
+    description: 'Something is invalid on the request body.'
   })
   @ApiUnauthorizedResponse({
-    description: 'The user is not logged in.',
+    description: 'The user is not logged in.'
   })
   public async updateUser(
     @CurrentUser() id: number,
@@ -88,13 +99,13 @@ export class UsersController {
 
   @Delete()
   @ApiNoContentResponse({
-    description: 'The user is deleted.',
+    description: 'The user is deleted.'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body, or wrong password.',
+    description: 'Something is invalid on the request body, or wrong password.'
   })
   @ApiUnauthorizedResponse({
-    description: 'The user is not logged in.',
+    description: 'The user is not logged in.'
   })
   public async deleteUser(
     @CurrentUser() id: number,
@@ -103,7 +114,8 @@ export class UsersController {
   ): Promise<void> {
     await this.usersService.delete(id, dto);
     // @ts-ignore
-    res.clearCookie(this.cookieName, { path: this.cookiePath })
+    res
+      .clearCookie(this.cookieName, { path: this.cookiePath })
       .status(HttpStatus.NO_CONTENT)
       .send();
   }

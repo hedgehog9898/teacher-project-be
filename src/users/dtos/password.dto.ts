@@ -5,7 +5,7 @@ export abstract class PasswordDto {
   @ApiProperty({
     description: 'The password of the user',
     minLength: 1,
-    type: String,
+    type: String
   })
   @IsString()
   @MinLength(1)

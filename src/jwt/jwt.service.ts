@@ -1,13 +1,23 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException
+} from '@nestjs/common';
 import { v4 } from 'uuid';
 import { IJwt } from '../config/interfaces/jwt.interface';
 import { IUser } from '../users/interfaces/user.interface';
 import { ConfigService } from '@nestjs/config';
 import { CommonService } from '../common/common.service';
 import * as jwt from 'jsonwebtoken';
-import { IAccessPayload, IAccessToken } from './interfaces/access-token.interface';
+import {
+  IAccessPayload,
+  IAccessToken
+} from './interfaces/access-token.interface';
 import { IEmailPayload, IEmailToken } from './interfaces/email-token.interface';
-import { IRefreshPayload, IRefreshToken } from './interfaces/refresh-token.interface';
+import {
+  IRefreshPayload,
+  IRefreshToken
+} from './interfaces/refresh-token.interface';
 import { TokenTypeEnum } from './enums/token-type.enum';
 
 @Injectable()
@@ -88,12 +98,12 @@ export class JwtService {
             {
               id: user.id,
               version: user.credentials.version,
-              tokenId: tokenId ?? v4(),
+              tokenId: tokenId ?? v4()
             },
             refreshSecret,
             {
               ...jwtOptions,
-              expiresIn: refreshTime,
+              expiresIn: refreshTime
             },
           ),
         );
@@ -106,7 +116,7 @@ export class JwtService {
             secret,
             {
               ...jwtOptions,
-              expiresIn: time,
+              expiresIn: time
             },
           ),
         );
@@ -134,7 +144,7 @@ export class JwtService {
   >(token: string, tokenType: TokenTypeEnum): Promise<T> {
     const jwtOptions: jwt.VerifyOptions = {
       issuer: this.issuer,
-      audience: new RegExp(this.domain),
+      audience: new RegExp(this.domain)
     };
 
     switch (tokenType) {
@@ -144,7 +154,7 @@ export class JwtService {
           JwtService.verifyTokenAsync(token, publicKey, {
             ...jwtOptions,
             maxAge: accessTime,
-            algorithms: ['RS256'],
+            algorithms: ['RS256']
           }),
         );
       case TokenTypeEnum.REFRESH:
@@ -155,7 +165,7 @@ export class JwtService {
           JwtService.verifyTokenAsync(token, secret, {
             ...jwtOptions,
             maxAge: time,
-            algorithms: ['HS256'],
+            algorithms: ['HS256']
           }),
         );
     }

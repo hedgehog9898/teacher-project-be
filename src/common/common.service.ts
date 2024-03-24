@@ -4,7 +4,8 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  LoggerService, NotFoundException,
+  LoggerService,
+  NotFoundException
 } from '@nestjs/common';
 import { Dictionary, EntityManager } from '@mikro-orm/core';
 import { validate } from 'class-validator';
@@ -39,7 +40,10 @@ export class CommonService {
    *
    * Validates, saves and flushes entities into the DB
    */
-  public async saveEntity<T extends Dictionary>(entity: T, isNew = false): Promise<void> {
+  public async saveEntity<T extends Dictionary>(
+    entity: T,
+    isNew = false,
+  ): Promise<void> {
     await this.validateEntity(entity);
 
     if (isNew) {
@@ -64,7 +68,10 @@ export class CommonService {
    * Checks is an error is of the code 23505, PostgreSQL's duplicate value error,
    * and throws a conflict exception
    */
-  public async throwDuplicateError<T>(promise: Promise<T>, message?: string): Promise<T> {
+  public async throwDuplicateError<T>(
+    promise: Promise<T>,
+    message?: string,
+  ): Promise<T> {
     try {
       return await promise;
     } catch (error) {
@@ -101,7 +108,9 @@ export class CommonService {
     const errors = await validate(entity);
 
     if (errors.length > 0) {
-      const messages = errors.map((error) => Object.values(error.constraints)).join(',\n');
+      const messages = errors
+        .map((error) => Object.values(error.constraints))
+        .join(',\n');
       throw new BadRequestException(messages);
     }
   }

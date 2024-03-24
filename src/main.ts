@@ -35,11 +35,11 @@ async function bootstrap() {
   app.use(helmet());
   app.enableCors({
     credentials: true,
-    origin: `https://${configService.get<string>('domain')}`,
+    origin: `https://${configService.get<string>('domain')}`
   });
   app.useGlobalPipes(
     new ValidationPipe({
-      transform: true,
+      transform: true
     }),
   );
   await app.listen(configService.get<number>('port'));

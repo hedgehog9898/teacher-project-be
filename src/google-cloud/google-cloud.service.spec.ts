@@ -6,7 +6,7 @@ describe('GoogleCloudService', () => {
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [GoogleCloudService],
+      providers: [GoogleCloudService]
     }).compile();
 
     service = module.get<GoogleCloudService>(GoogleCloudService);

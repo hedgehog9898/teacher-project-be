@@ -1,4 +1,4 @@
-import { Injectable, } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { redisStore } from 'cache-manager-ioredis-yet';
 import { CacheModuleOptions, CacheOptionsFactory } from '@nestjs/common/cache';
@@ -11,8 +11,8 @@ export class CacheConfig implements CacheOptionsFactory {
     return {
       store: await redisStore({
         ...this.configService.get('redis'),
-        ttl: this.configService.get<number>('jwt.refresh.time') * 1000,
-      }),
+        ttl: this.configService.get<number>('jwt.refresh.time') * 1000
+      })
     };
   }
 }

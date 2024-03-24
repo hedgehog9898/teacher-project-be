@@ -1,13 +1,15 @@
 import {
   Body,
-  Controller, Get,
+  Controller,
+  Get,
   HttpCode,
-  HttpStatus, Patch,
+  HttpStatus,
+  Patch,
   Post,
   Req,
   Res,
   UnauthorizedException,
-  UseGuards,
+  UseGuards
 } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
@@ -33,7 +35,7 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
-  ApiUnauthorizedResponse,
+  ApiUnauthorizedResponse
 } from '@nestjs/swagger';
 import { MessageMapper } from '../common/mappers/message.mapper';
 
@@ -72,7 +74,7 @@ export class AuthController {
       httpOnly: true,
       signed: true,
       path: this.cookiePath,
-      expires: new Date(Date.now() + this.refreshTime * 1000),
+      expires: new Date(Date.now() + this.refreshTime * 1000)
     });
   }
 
@@ -80,13 +82,13 @@ export class AuthController {
   @Post('/sign-up')
   @ApiCreatedResponse({
     type: MessageMapper,
-    description: 'The user has been created and is waiting confirmation',
+    description: 'The user has been created and is waiting confirmation'
   })
   @ApiConflictResponse({
-    description: 'Email already in use',
+    description: 'Email already in use'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body',
+    description: 'Something is invalid on the request body'
   })
   public async signUp(
     @Origin() origin: string | undefined,
@@ -99,13 +101,13 @@ export class AuthController {
   @Post('/sign-in')
   @ApiOkResponse({
     type: AuthResponseMapper,
-    description: 'Logs in the user and returns the access token',
+    description: 'Logs in the user and returns the access token'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body',
+    description: 'Something is invalid on the request body'
   })
   @ApiUnauthorizedResponse({
-    description: 'Invalid credentials or User is not confirmed',
+    description: 'Invalid credentials or User is not confirmed'
   })
   public async signIn(
     @Res() res: Response,
@@ -122,14 +124,14 @@ export class AuthController {
   @Post('/refresh-access')
   @ApiOkResponse({
     type: AuthResponseMapper,
-    description: 'Refreshes and returns the access token',
+    description: 'Refreshes and returns the access token'
   })
   @ApiUnauthorizedResponse({
-    description: 'Invalid token',
+    description: 'Invalid token'
   })
   @ApiBadRequestResponse({
     description:
-      'Something is invalid on the request body, or Token is invalid or expired',
+      'Something is invalid on the request body, or Token is invalid or expired'
   })
   public async refreshAccess(
     @Req() req: Request,
@@ -149,13 +151,13 @@ export class AuthController {
   @Post('/logout')
   @ApiOkResponse({
     type: MessageMapper,
-    description: 'The user is logged out',
+    description: 'The user is logged out'
   })
   @ApiBadRequestResponse({
-    description: 'Something is invalid on the request body',
+    description: 'Something is invalid on the request body'
   })
   @ApiUnauthorizedResponse({
-    description: 'Invalid token',
+    description: 'Invalid token'
   })
   public async logout(
     @Req() req: Request,
@@ -172,10 +174,10 @@ export class AuthController {
   @Get('/me')
   @ApiOkResponse({
     type: AuthResponseUserMapper,
-    description: 'The user is found and returned.',
+    description: 'The user is found and returned.'
   })
   @ApiUnauthorizedResponse({
-    description: 'The user is not logged in.',
+    description: 'The user is not logged in.'
   })
   public async getMe(@CurrentUser() id: number): Promise<IAuthResponseUser> {
     const user = await this.usersService.findOneById(id);
@@ -186,14 +188,14 @@ export class AuthController {
   @Post('/confirm-email')
   @ApiOkResponse({
     type: AuthResponseMapper,
-    description: 'Confirms the user email and returns the access token',
+    description: 'Confirms the user email and returns the access token'
   })
   @ApiUnauthorizedResponse({
-    description: 'Invalid token',
+    description: 'Invalid token'
   })
   @ApiBadRequestResponse({
     description:
-      'Something is invalid on the request body, or Token is invalid or expired',
+      'Something is invalid on the request body, or Token is invalid or expired'
   })
   public async confirmEmail(
     @Body() confirmEmailDto: ConfirmEmailDto,
@@ -209,7 +211,8 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     type: MessageMapper,
-    description: 'An email has been sent to the user with the reset password link',
+    description:
+      'An email has been sent to the user with the reset password link'
   })
   public async forgotPassword(
     @Origin() origin: string | undefined,
@@ -223,11 +226,11 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     type: MessageMapper,
-    description: 'The password has been reset',
+    description: 'The password has been reset'
   })
   @ApiBadRequestResponse({
     description:
-      'Something is invalid on the request body, or Token is invalid or expired',
+      'Something is invalid on the request body, or Token is invalid or expired'
   })
   public async resetPassword(
     @Body() resetPasswordDto: ResetPasswordDto,
@@ -238,10 +241,10 @@ export class AuthController {
   @Patch('/update-password')
   @ApiOkResponse({
     type: AuthResponseMapper,
-    description: 'The password has been updated',
+    description: 'The password has been updated'
   })
   @ApiUnauthorizedResponse({
-    description: 'The user is not logged in.',
+    description: 'The user is not logged in.'
   })
   public async updatePassword(
     @CurrentUser() userId: number,
