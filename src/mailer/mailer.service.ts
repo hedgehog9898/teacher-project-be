@@ -35,7 +35,7 @@ export class MailerService {
     const subject = 'Confirm your email';
     const html = this.templates.confirmation({
       name,
-      link: `https://${this.domain}/auth/confirm/${token}`
+      link: `http://${this.domain}/confirm-email?token=${token}`
     });
     this.sendEmail(email, subject, html, 'A new confirmation email was sent.');
   }
@@ -45,7 +45,7 @@ export class MailerService {
     const subject = 'Reset your password';
     const html = this.templates.resetPassword({
       name,
-      link: `https://${this.domain}/auth/reset-password/${token}`
+      link: `http://${this.domain}/reset-password?token=${token}`
     });
     this.sendEmail(
       email,
