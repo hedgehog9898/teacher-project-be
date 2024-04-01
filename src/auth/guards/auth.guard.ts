@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
     req: Request,
     isPublic: boolean,
   ): Promise<boolean> {
-    const auth = req.headers?.get('Authorization');
+    const auth = req.headers['authorization'];
 
     if (isUndefined(auth) || isNull(auth) || auth.length === 0) {
       return isPublic;

@@ -140,7 +140,7 @@ export class AuthController {
     const result = await this.authService.refreshTokenAccess(
       token,
       // @ts-ignore
-      req.headers.get('Origin'),
+      req.headers['origin'],
     );
     this.saveRefreshCookie(res, result.refreshToken)
       .status(HttpStatus.OK)
